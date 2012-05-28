@@ -1,1 +1,1 @@
-==Rails Tutorial Sample App
+# Rails Tutorial Sample App
