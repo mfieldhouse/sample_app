@@ -22,6 +22,9 @@ group :assets do
   gem 'uglifier', '1.2.3'
 end
 
+# cucumber-rails, database_cleaner = cucumber gems
+# guard-spork, rb-fsevent, growl   = TDD desktop notifications
+
 group :test do
   gem 'capybara', '1.1.2'
   gem 'factory_girl_rails', '1.4.0'
@@ -33,6 +36,8 @@ group :test do
   gem 'rb-fsevent', '0.9.1', :require => false
   gem 'growl', '1.0.3'
 end
+
+# postgreSQL in production
 
 group :production do
   gem 'pg', '0.12.2'

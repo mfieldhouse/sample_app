@@ -1,10 +1,15 @@
 <%= provide :title, "All users" %>
 <h1>All users</h1>
 
+<!-- will_paginate looks for an instance variable with
+     the same name as the controller -->
+
+<%= will_paginate %>
+
+<!-- Rails renders the corresponding partial _user.html.erb -->
+
 <ul class="users">
-  <% @users.each do |user| %>
-  <li>
-    <%= gravatar_for user, size: 52 %>
-    <%= link_to user.name, user %>
-  </li>
-<% end %>
+  <%= render @users %>
+</ul>
+
+<%= will_paginate %>

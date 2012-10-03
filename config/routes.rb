@@ -8,6 +8,9 @@ SampleApp::Application.routes.draw do
   match '/signup', to: 'users#new'
   
   match '/signin', to: 'sessions#new'
+
+  # via: constrains the request to one or more http verbs
+
   match '/signout', to: 'sessions#destroy', via: :delete
 
   match '/help', to: 'static_pages#help'

@@ -2,22 +2,32 @@ require 'spec_helper'
 
 describe User do
 
-  before do 
-  @user = User.new( name: "Example User", email: "user@example.com",  
-                    password: "foobar", password_confirmation: "foobar")
+  before do
+    @user = User.new( name: "Example User", email: "user@example.com",
+                      password: "foobar", password_confirmation: "foobar")
   end
 
   subject { @user }
 
   it { should respond_to(:name) }
   it { should respond_to(:email) }
-  it { should respond_to(:password_digest) }  
-  it { should respond_to(:password) }  
-  it { should respond_to(:password_confirmation) } 
-  it { should respond_to(:remember_token) } 
-  it { should respond_to(:authenticate) } 
+  it { should respond_to(:password_digest) }
+  it { should respond_to(:password) }
+  it { should respond_to(:password_confirmation) }
+  it { should respond_to(:remember_token) }
+  it { should respond_to(:admin) }
+  it { should respond_to(:authenticate) }
 
   it { should be_valid }
+  it { should_not be_admin }
+
+  describe "accessible attributes" do
+    it "should not allow access to admin" do
+      expect do
+        User.new(admin: "1")
+      end.should raise_error(ActiveModel::MassAssignmentSecurity::Error)
+    end
+  end
 
   describe "when name is not present" do
     before { @user.name = " " }
@@ -36,7 +46,7 @@ describe User do
 
   describe "when email format is invalid" do
     it "should be invalid" do
-      addresses = %w[ user@foo,com user_at_foo.org example.user@foo. 
+      addresses = %w[ user@foo,com user_at_foo.org example.user@foo.
                       user@foo+bar.com user@foo_bar.com ]
       addresses.each do |invalid_address|
         @user.email = invalid_address
@@ -84,7 +94,7 @@ describe User do
     before { @user.password = @user.password_confirmation = "a" * 5 }
     it { should_not be_valid }
   end
-    
+
   describe "return value of authenticate method" do
     before { @user.save }
     let(:found_user) { User.find_by_email(@user.email) }
