@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "AuthenticationPages" do
-  
+
   subject { page }
 
   describe "signin page" do
@@ -10,13 +10,13 @@ describe "AuthenticationPages" do
 
     it { should have_selector('h1', text: 'Sign in') }
     it { should have_selector('title', text: 'Sign in') }
-  end 
+  end
 
-  describe "signin" do    
+  describe "signin" do
     let(:signin) { "Sign in" }
 
     before { visit signin_path }
-    
+
     describe "with valid information" do
       let(:user) { FactoryGirl.create :user }
 
@@ -99,6 +99,18 @@ describe "AuthenticationPages" do
 
       describe "submitting a PUT request to the Users#update action" do
         before { put user_path(wrong_user) }
+        specify { response.should redirect_to(root_path) }
+      end
+    end
+
+    describe "as non-admin user" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:non_admin) { FactoryGirl.create(:user) }
+
+      before { sign_in non_admin }
+
+      describe "submitting a DELETE request to the Users#destroy action" do
+        before { delete user_path(user) }
         specify { response.should redirect_to(root_path) }
       end
     end
